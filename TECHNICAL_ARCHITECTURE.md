@@ -12,16 +12,33 @@ This project **finds explosions or fire in videos**. It:
 
 ## Simple Architecture
 
-```
-Video + Answer Key (annotation.txt)
-        ↓
-   Read each frame
-        ↓
-   AI looks for "smoke or fire" (GroundingDINO)
-        ↓
-   Mark frame as anomaly if something is found
-        ↓
-   Compare results to answer key → Precision, Recall, Accuracy
+```mermaid
+flowchart TB
+    subgraph Input["📥 Input"]
+        VIDEO[(Video File)]
+        ANNO[annotation.txt<br/><i>Answer key</i>]
+    end
+
+    subgraph Process["⚙️ Process"]
+        LOAD[Read each frame<br/><i>OpenCV</i>]
+        AI[GroundingDINO<br/><i>"smoke or fire"</i>]
+        DECIDE{Detection found?}
+    end
+
+    subgraph Output["📊 Output"]
+        ANOMALY[Mark frame as anomaly]
+        NORMAL[Mark frame as normal]
+        EVAL[Compare to answer key<br/>Precision · Recall · Accuracy]
+    end
+
+    VIDEO --> LOAD
+    ANNO --> EVAL
+    LOAD --> AI
+    AI --> DECIDE
+    DECIDE -->|Yes| ANOMALY
+    DECIDE -->|No| NORMAL
+    ANOMALY --> EVAL
+    NORMAL --> EVAL
 ```
 
 **Notebooks:**

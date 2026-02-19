@@ -14,21 +14,21 @@ This project **finds explosions or fire in videos**. It:
 
 ```mermaid
 flowchart TB
-    subgraph Input["📥 Input"]
+    subgraph Input["Input"]
         VIDEO[(Video File)]
-        ANNO[annotation.txt<br/><i>Answer key</i>]
+        ANNO[annotation.txt - Answer key]
     end
 
-    subgraph Process["⚙️ Process"]
-        LOAD[Read each frame<br/><i>OpenCV</i>]
-        AI[GroundingDINO<br/><i>"smoke or fire"</i>]
+    subgraph Process["Process"]
+        LOAD[Read each frame with OpenCV]
+        AI[GroundingDINO - smoke or fire]
         DECIDE{Detection found?}
     end
 
-    subgraph Output["📊 Output"]
+    subgraph Output["Output"]
         ANOMALY[Mark frame as anomaly]
         NORMAL[Mark frame as normal]
-        EVAL[Compare to answer key<br/>Precision · Recall · Accuracy]
+        EVAL[Compare to answer key - Precision Recall Accuracy]
     end
 
     VIDEO --> LOAD
